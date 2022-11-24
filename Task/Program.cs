@@ -10,31 +10,50 @@ string[] CreateArrayString(int num)
     {
         string row = Console.ReadLine();
         array[i] = row;
-
     }
     return array;
 }
 
-void PrintArray(string[] arr)
+void PrintArray(string[] arr, int quantity)
 {
-    Console.Write("[");
-    for (int i = 0; i < arr.Length; i++)
+    if (quantity > 0)
     {
-        if (i < arr.Length - 1) Console.Write($"{arr[i]} ");
-        else Console.Write($"{arr[i]}");
+        Console.Write("[");
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (i < arr.Length - 1) Console.Write($"\"{arr[i]}\", ");
+            else Console.Write($"\"{arr[i]}");
+        }
+        Console.WriteLine("\"]");
     }
-    Console.WriteLine("]");
+    else Console.WriteLine("[]");
 }
 
-string[] FilterArrayThreeChars(string[] arr)
+int CountCharsInElem(string[] arr)
 {
-    var arrayFilter = new string[arr.Length];
-    for (int i = 0; i < arrayFilter.Length; i++)
+    int count = default;
+    for (int i = 0; i < arr.Length; i++)
     {
-        if (arr[i].Length <= 3) arrayFilter[i] = arr[i];
+        if (arr[i].Length <= 3) count++;
+    }
+    return count;
+}
+
+string[] RecordElemWithNeedChars(string[] arr, int countChars)
+{
+    var arrayFilter = new string[countChars];
+    int num = default;
+    for (int i = 0; i < arr.Length; i++)
+    {
+        if (arr[i].Length <= 3)
+        {
+            arrayFilter[num] = arr[i];
+            num++;
+        }
     }
     return arrayFilter;
 }
+
 
 Console.WriteLine("Задайте количество элементов в массиве: ");
 int numOfrRow = Convert.ToInt32(Console.ReadLine());
@@ -42,9 +61,15 @@ int numOfrRow = Convert.ToInt32(Console.ReadLine());
 Console.WriteLine("Введите значение элемента массива (строку из символов): ");
 string[] arrayOfRows = CreateArrayString(numOfrRow);
 Console.WriteLine("Первоначальный массив: ");
-PrintArray(arrayOfRows);
+int quantityDefault = 1;
+PrintArray(arrayOfRows, quantityDefault);
+
+Console.WriteLine("Отфильтрованный массив: ");
+int countCharsInElem = CountCharsInElem(arrayOfRows);
+string[] arrayFilter = RecordElemWithNeedChars(arrayOfRows, countCharsInElem);
+PrintArray(arrayFilter, countCharsInElem);
 
 
-string[] arrayFilter = FilterArrayThreeChars(arrayOfRows);
-Console.WriteLine("Отфильтрованный массив : ");
-PrintArray(arrayFilter);
+
+
+
